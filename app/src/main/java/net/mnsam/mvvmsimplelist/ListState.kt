@@ -1,5 +1,6 @@
 package net.mnsam.mvvmsimplelist
 
-sealed class WordListState
-class WordList(list: List<Word>) : WordListState()
-object WordEmpty : WordListState()
+sealed class WordListState {
+    class WordList(val list: List<Word>) : WordListState()
+    object Empty : WordListState()
+}

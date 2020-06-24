@@ -18,14 +18,15 @@ class MainActivity : AppCompatActivity() {
         observeWord()
     }
 
-    private val wordObserver = Observer<WordListState> {
-        if (it != null) {
-            when(it) {
-                is WordList -> {
-                    //set adapter dataset
+    private val wordObserver = Observer<WordListState> { state ->
+        if (state != null) {
+            when(state) {
+                is WordListState.WordList -> {
+                    val list = state.list
+                    //set adapter dataset from list
                 }
 
-                is WordEmpty -> {
+                is WordListState.Empty -> {
                     //hide recyclerview, show text empty
                 }
             }
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeWord() {
-        wordViewModel.getWordState().observe(this, wordObserver)
+        wordViewModel.wordState.observe(this, wordObserver)
     }
 
     private fun setupRecyclerView() {

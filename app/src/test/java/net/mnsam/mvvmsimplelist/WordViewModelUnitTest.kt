@@ -36,14 +36,14 @@ class WordViewModelUnitTest {
         wordViewModel = WordViewModel(mockWordService)
 
         //when
-        wordViewModel.getWordState().observeForever(wordObserver)
+        wordViewModel.wordState.observeForever(wordObserver)
         wordViewModel.fetchAllWords()
 
         //expected
         //mockWordService#getAllWords() should be invoked
         Mockito.verify(mockWordService).getAllWords()
         //observer#onChanged should be invoked with empty state
-        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordEmpty::class.java))
+        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordListState.Empty::class.java))
     }
 
     @Test
@@ -53,12 +53,12 @@ class WordViewModelUnitTest {
         wordViewModel = WordViewModel(fakeNotEmptyWordService)
 
         //when
-        wordViewModel.getWordState().observeForever(wordObserver)
+        wordViewModel.wordState.observeForever(wordObserver)
         wordViewModel.fetchAllWords()
 
         //expected
         //observer#onChanged should be invoked with not empty state
-        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordList::class.java))
+        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordListState.WordList::class.java))
     }
 
     @Test
@@ -68,12 +68,12 @@ class WordViewModelUnitTest {
         wordViewModel = WordViewModel(fakeNotEmptyWordService)
 
         //when
-        wordViewModel.getWordState().observeForever(wordObserver)
+        wordViewModel.wordState.observeForever(wordObserver)
         wordViewModel.searchWords("fake query")
 
         //expected
         //observer#onChanged should be invoked with not empty state
-        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordList::class.java))
+        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordListState.WordList::class.java))
     }
 
     @Test
@@ -82,7 +82,7 @@ class WordViewModelUnitTest {
         wordViewModel = WordViewModel(mockWordService)
 
         //when
-        wordViewModel.getWordState().observeForever(wordObserver)
+        wordViewModel.wordState.observeForever(wordObserver)
         val query = "fake query"
         wordViewModel.searchWords(query)
 
@@ -90,7 +90,7 @@ class WordViewModelUnitTest {
         //make sure mockWordService#searchWord is invoked with the exact same query
         Mockito.verify(mockWordService).searchWord(query)
         //observer#onChanged should be invoked with empty state
-        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordEmpty::class.java))
+        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordListState.Empty::class.java))
     }
 
     //second test as above with different query, to make sure query is dynamic
@@ -100,7 +100,7 @@ class WordViewModelUnitTest {
         wordViewModel = WordViewModel(mockWordService)
 
         //when
-        wordViewModel.getWordState().observeForever(wordObserver)
+        wordViewModel.wordState.observeForever(wordObserver)
         val query = "fake different query"
         wordViewModel.searchWords(query)
 
@@ -108,7 +108,7 @@ class WordViewModelUnitTest {
         //make sure mockWordService#searchWord is invoked with the exact same query
         Mockito.verify(mockWordService).searchWord(query)
         //observer#onChanged should be invoked with empty state
-        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordEmpty::class.java))
+        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordListState.Empty::class.java))
     }
 
     @Test
@@ -118,12 +118,12 @@ class WordViewModelUnitTest {
         wordViewModel = WordViewModel(fakeNotEmptyWordService)
 
         //when
-        wordViewModel.getWordState().observeForever(wordObserver)
+        wordViewModel.wordState.observeForever(wordObserver)
         val query = "fake not empty query"
         wordViewModel.searchWords(query)
 
         //expected
         //observer#onChanged should be invoked with empty state
-        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordList::class.java))
+        Mockito.verify(wordObserver).onChanged(Mockito.isA(WordListState.WordList::class.java))
     }
 }
